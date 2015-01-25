@@ -102,5 +102,5 @@ def ratio_error(dimA, dimB):
 			total_error((nDimA_0, dimA[1]), dimB))
 
 if __name__ == '__main__':
-	populate_images("images/")
+	populate_images(os.path.join(os.path.dirname(os.path.realpath(__file__)), "images/"))
 	app.run(debug=True)
