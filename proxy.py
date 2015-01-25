@@ -68,7 +68,7 @@ def rewrite_url(full_url, relative_url):
 
 def get_image(extension, dimension):
 	possible = cat_images[extension]
-	print(possible)
+	print('DEBUG: possible',possible)
 	random.shuffle(possible)
 	best = possible[0]
 	for image in possible[1:]:
@@ -82,7 +82,10 @@ def get_image(extension, dimension):
 
 cat_images ={}
 def populate_images(dirs):
+	print("DEBUG: populating images!")
 	global cat_images
+	if len(cat_images.keys()) != 0:
+		return
 	for files in os.listdir(dirs):
 		full_path = os.path.join(dirs, files)
 		extension = files.split('/')[-1].split('.',1)[-1]
@@ -90,7 +93,8 @@ def populate_images(dirs):
 			cat_images[extension] = []
 		dimension = Image.open(full_path).size
 		cat_images[extension].append((full_path, dimension))
-	print(cat_images)
+	print("DEBUG: populated images ", cat_images)
+populate_images(os.path.join(os.path.dirname(os.path.realpath(__file__)), "images/"))
 
 def total_error(dimA, dimB):
 	return (dimA[0]*dimA[1] - dimB[0]*dimB[1])**2
@@ -102,5 +106,4 @@ def ratio_error(dimA, dimB):
 			total_error((nDimA_0, dimA[1]), dimB))
 
 if __name__ == '__main__':
-	populate_images(os.path.join(os.path.dirname(os.path.realpath(__file__)), "images/"))
-	app.run(debug=True)
+	app.run()
