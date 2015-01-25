@@ -100,4 +100,4 @@ def ratio_error(dimA, dimB):
 
 if __name__ == '__main__':
 	populate_images("images/")
-	app.run(debug=True)
+	app.run()
