@@ -1,4 +1,4 @@
-from flask import Flask, Response, request
+from flask import Flask, Response, request, url_for
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 from PIL import Image
@@ -53,13 +53,16 @@ def needs_rewrite(tag):
 	return False
 
 def rewrite_url(full_url, relative_url):
+	global app
 	total_url = urljoin(full_url, relative_url)
 	print('DEBUG:',total_url)
 	try:
 		argument = total_url.split('://',1)[1]
 	except IndexError:
 		return relative_url
-	end_result = "http://localhost:5000/"+argument
+	#print(www.config['HOST'])
+	end_result = url_for('proxy', url=argument)
+	#end_result = "http://"+app.config['SERVER_NAME']+"/"+argument
 	print(full_url, relative_url, total_url, end_result)
 	return end_result
 
@@ -100,4 +103,4 @@ def ratio_error(dimA, dimB):
 
 if __name__ == '__main__':
 	populate_images("images/")
-	app.run()
+	app.run(debug=True)
